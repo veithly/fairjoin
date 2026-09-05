@@ -1,0 +1,26 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {build} from 'esbuild';
+await fs.mkdir('artifacts/regression',{recursive:true});
+await build({entryPoints:['worker/media.ts'],outfile:'artifacts/regression/media-under-test.mjs',bundle:true,platform:'node',format:'esm'});
+const {serveVideo}=await import('../artifacts/regression/media-under-test.mjs');
+const original=Buffer.from('abcdefghijklmnopqrstuvwxyz0123456789'),sha='a'.repeat(64);
+const parts=[0,1,2,3].map(i=>({path:`/media/parts/aaaaaaaaaaaa-${String(i).padStart(2,'0')}.bin`,size:9}));
+const manifest={size:original.length,sha256:sha,parts};let nativeRange=false,badManifest=false,truncated=false;
+const assets={async fetch(request){const p=new URL(request.url).pathname;if(p==='/media/manifest.json')return Response.json(badManifest?{...manifest,size:99}:manifest);const i=parts.findIndex(x=>x.path===p);if(i<0)return new Response(null,{status:404});let data=original.subarray(i*9,(i+1)*9),status=200,headers={};if(nativeRange){const[,a,b]=/^bytes=(\d+)-(\d+)$/.exec(request.headers.get('Range'));data=data.subarray(Number(a),Number(b)+1);status=206;headers={'Content-Range':`bytes ${a}-${b}/9`};}if(truncated)data=data.subarray(0,1);let offset=0;return new Response(new ReadableStream({pull(c){if(offset>=data.length){c.close();return;}c.enqueue(data.subarray(offset,offset+2));offset+=2;}}),{status,headers});}};
+const results=[];const test=async(name,fn)=>{await fn();results.push({name,passed:true});console.log('PASS '+name);};
+const get=(headers={},method='GET')=>serveVideo(new Request('https://fairjoin.example/media/fairjoin-2min.mp4',{headers,method}),assets);
+for(const supportsRange of[false,true]){nativeRange=supportsRange;
+ await test(`full stream; assets range=${supportsRange}`,async()=>{const r=await get();assert.equal(r.status,200);assert.equal(Number(r.headers.get('content-length')),36);assert.deepEqual(Buffer.from(await r.arrayBuffer()),original);});
+ await test(`cross-part range; assets range=${supportsRange}`,async()=>{const r=await get({Range:'bytes=7-24'});assert.equal(r.status,206);assert.equal(r.headers.get('content-range'),'bytes 7-24/36');assert.deepEqual(Buffer.from(await r.arrayBuffer()),original.subarray(7,25));});
+ await test(`suffix range; assets range=${supportsRange}`,async()=>{const r=await get({Range:'bytes=-5'});assert.deepEqual(Buffer.from(await r.arrayBuffer()),original.subarray(-5));});
+ await test(`open range; assets range=${supportsRange}`,async()=>{const r=await get({Range:'bytes=30-'});assert.deepEqual(Buffer.from(await r.arrayBuffer()),original.subarray(30));});
+}
+await test('HEAD has full length and no body',async()=>{const r=await get({Range:'bytes=1-2'},'HEAD');assert.equal(r.status,200);assert.equal(r.headers.get('content-length'),'36');assert.equal((await r.arrayBuffer()).byteLength,0);});
+for(const range of['bytes=36-','bytes=8-7','bytes=-0','bytes=','bytes=1-2,4-5'])await test('reject '+range,async()=>{const r=await get({Range:range});assert.equal(r.status,416);assert.equal(r.headers.get('content-range'),'bytes */36');});
+await test('conditional ETag 304',async()=>{assert.equal((await get({'If-None-Match':'"'+sha+'"'})).status,304);});
+await test('stale If-Range returns full body',async()=>{const r=await get({Range:'bytes=1-2','If-Range':'"old"'});assert.equal(r.status,200);assert.deepEqual(Buffer.from(await r.arrayBuffer()),original);});
+await test('POST refused',async()=>assert.equal((await get({},'POST')).status,405));
+await test('invalid manifest refuses playback',async()=>{badManifest=true;assert.equal((await get()).status,503);badManifest=false;});
+await test('truncated asset stream rejects instead of padding',async()=>{truncated=true;const r=await get();await assert.rejects(r.arrayBuffer(),/Truncated/);truncated=false;});
+await fs.writeFile('artifacts/regression/media-results.json',JSON.stringify({testedAt:new Date().toISOString(),results},null,2));console.log(`Media worker: ${results.length} passed.`);

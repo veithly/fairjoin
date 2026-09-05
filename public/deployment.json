@@ -1,0 +1,21 @@
+{
+  "chainId": 10143,
+  "name": "Monad 测试网",
+  "rpcUrl": "https://testnet-rpc.monad.xyz",
+  "rpcUrls": [
+    "https://rpc-testnet.monadinfra.com"
+  ],
+  "contract": "0xf6ac320e7c4e865a72c588c89be23ff12ca543c3",
+  "token": "0xa9df142d14218cc99f3068cbadc1d1965f7623b7",
+  "decimals": 6,
+  "symbol": "FJUSD",
+  "explorerUrl": "https://testnet.monadvision.com",
+  "deploymentBlock": "59807942",
+  "local": false,
+  "demoGroupId": "11",
+  "demoReceiptAddress": "0x39fb9c5d645712Dde3Cd5601E2CCDfcd1089719A",
+  "assetType": "project-demo-token",
+  "assetDisclosure": "Project-issued FJUSD test fixture; no monetary value; not Circle USDC; no AI membership purchased or provisioned.",
+  "demoTitle": "GPT Pro 20x 拼车",
+  "caseProof": "/proof/settlement.json"
+}

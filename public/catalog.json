@@ -1,0 +1,59 @@
+{
+  "chainId": 10143,
+  "contract": "0xf6ac320e7c4e865a72c588c89be23ff12ca543c3",
+  "token": "0xa9df142d14218cc99f3068cbadc1d1965f7623b7",
+  "featuredGroupId": "11",
+  "disclosure": "Controlled test accounts; no-value FJUSD; examples do not provide vendor memberships, venue bookings or real services.",
+  "updatedAt": "2026-09-05T07:04:33.713Z",
+  "groups": [
+    {
+      "id": "11",
+      "category": "ai",
+      "featured": true,
+      "key": "gpt",
+      "label": "主活动 · 费用分摊演示"
+    },
+    {
+      "id": "2",
+      "category": "community",
+      "key": "failed",
+      "label": "真实截止状态验收示例"
+    },
+    {
+      "id": "3",
+      "category": "learning",
+      "key": "settled",
+      "label": "真实截止状态验收示例"
+    },
+    {
+      "id": "4",
+      "category": "ai",
+      "key": "claude",
+      "label": "测试网活动示例"
+    },
+    {
+      "id": "5",
+      "category": "learning",
+      "key": "workshop",
+      "label": "测试网活动示例"
+    },
+    {
+      "id": "6",
+      "category": "space",
+      "key": "studio",
+      "label": "测试网活动示例"
+    },
+    {
+      "id": "7",
+      "category": "community",
+      "key": "bookclub",
+      "label": "测试网活动示例"
+    },
+    {
+      "id": "8",
+      "category": "space",
+      "key": "cancelled",
+      "label": "测试网活动示例"
+    }
+  ]
+}

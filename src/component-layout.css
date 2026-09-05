@@ -1,0 +1,346 @@
+.mechanism-section,
+.price-section,
+.members-section,
+.money-location {
+  margin: 30px 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.impact {
+  border: 1px solid #cbd9bb;
+  background: #edf3e5;
+  border-radius: 12px;
+  padding: 24px;
+}
+.impact-top,
+.impact-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.impact-count {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.impact-bottom {
+  border-top: 1px solid #d2dec5;
+  padding-top: 18px;
+  margin-top: 18px;
+  font-size: 0.83rem;
+}
+.delta-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.delta-list span {
+  padding: 6px 9px;
+  background: #fff9;
+  border-radius: 5px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px;
+}
+.price-step.current {
+  background: #252d24;
+  color: #fff;
+}
+.price-step.projected {
+  background: #e4eed9;
+  border: 1px solid #b3c799;
+}
+.price-section .fine {
+  margin-top: 12px;
+}
+.members {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.member {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 15px;
+  background: var(--paper);
+  font-size: 0.8rem;
+}
+.member-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.seat-number {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #e8ecdf;
+  font-size: 0.7rem;
+}
+.member > strong {
+  font-size: 1.6rem;
+  display: block;
+}
+.member > span,
+.member > small {
+  display: block;
+}
+.member.empty {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted);
+}
+.rule-list {
+  display: grid;
+  gap: 18px;
+}
+.rule-list p {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+.payment-note,
+.critical {
+  font-size: 0.79rem;
+  margin: 18px 0 0;
+}
+.critical {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+.paper-mark {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.table-wrap {
+  max-width: 100%;
+  overflow: auto;
+}
+.positive {
+  color: #42673b;
+}
+.timeline-item {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.receipt-side .timeline {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+}
+dialog {
+  width: min(600px, calc(100vw - 32px));
+  max-height: calc(100dvh - 40px);
+  padding: 0;
+  border: 1px solid #dadfd1;
+  border-radius: 16px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 90px #20251745;
+  overflow: auto;
+}
+dialog::backdrop {
+  background: #20251c70;
+  backdrop-filter: blur(3px);
+}
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 26px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 1;
+}
+.dialog-head h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+.dialog-body {
+  padding: 26px;
+}
+.close-button {
+  background: #edeee6;
+  border-radius: 50%;
+  min-width: 40px;
+  min-height: 40px;
+  font-size: 1.3rem;
+}
+.host-overview {
+  display: grid;
+  gap: 20px;
+}
+.form-section {
+  margin: 24px 0;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.preview-card {
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.host-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.host-list button {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+@media (max-width: 700px) {
+  .members {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .impact-top,
+  .impact-bottom {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .impact {
+    padding: 20px;
+  }
+  .dialog-head {
+    padding: 18px;
+  }
+  .dialog-body {
+    padding: 20px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .member {
+    padding: 13px;
+  }
+  .receipt-side .timeline {
+    padding: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .dialog-body {
+    padding: 16px;
+  }
+  .member-title {
+    gap: 5px;
+    font-size: 0.71rem;
+  }
+  .member {
+    padding: 10px;
+  }
+  .impact {
+    padding: 16px;
+  }
+}
+
+.create-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 32px;
+}
+.form-field.full {
+  grid-column: 1/-1;
+}
+.host-form,
+.create-preview,
+.host-management {
+  padding: 26px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.host-form > button {
+  margin-top: 24px;
+}
+.create-preview {
+  align-self: start;
+  position: sticky;
+  top: 20px;
+}
+.host-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 24px 0;
+}
+.host-stats > div {
+  padding: 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.host-list {
+  display: block;
+}
+.host-list ul {
+  list-style: none;
+  padding: 0;
+}
+.host-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.danger-outline {
+  padding: 12px 18px;
+  border: 1px solid #b05c47;
+  border-radius: 8px;
+  color: #963f32;
+  background: transparent;
+  min-height: 46px;
+}
+.tabs [aria-pressed="true"] {
+  background: var(--purple);
+  color: white;
+}
+.receipt-actions {
+  padding: 26px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.receipt-actions .address {
+  display: block;
+  margin: 12px 0;
+}
+.proof {
+  margin-top: 24px;
+}
+@media (max-width: 700px) {
+  .create-grid {
+    grid-template-columns: 1fr;
+  }
+  .create-preview {
+    position: static;
+  }
+  .host-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .host-form,
+  .create-preview,
+  .host-management {
+    padding: 20px;
+  }
+}

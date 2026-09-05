@@ -1,0 +1,44 @@
+{
+  "name": "fairjoin",
+  "version": "1.0.0",
+  "description": "Fixed-cost group sharing with claimable rebates and verifiable settlement on Monad Testnet.",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "contracts:compile": "node scripts/compile-contracts.mjs",
+    "test:contracts": "npm run contracts:compile && node scripts/test-contracts.mjs",
+    "test:recovery": "node scripts/test-recovery-unit.mjs && node scripts/test-controller-regressions.mjs",
+    "test:worker": "node scripts/test-media-worker.mjs",
+    "test": "npm run test:contracts && npm run test:recovery && npm run test:worker",
+    "check:repo": "node scripts/check-repository.mjs",
+    "chain": "ganache --server.host 127.0.0.1 --server.port 8545 --chain.chainId 31337 --wallet.deterministic --miner.blockTime 1 --logging.quiet",
+    "deploy:local": "npm run contracts:compile && node scripts/deploy-local.mjs",
+    "deploy:worker": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.4.0",
+    "@rainbow-me/rainbowkit": "2.2.8",
+    "@tanstack/react-query": "5.90.2",
+    "lucide-react": "0.468.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "viem": "2.37.9",
+    "wagmi": "2.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.6",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "@vitejs/plugin-react": "5.0.3",
+    "esbuild": "0.25.12",
+    "ganache": "7.9.2",
+    "solc": "0.8.30",
+    "typescript": "5.9.2",
+    "vite": "7.1.7",
+    "wrangler": "4.129.0"
+  }
+}

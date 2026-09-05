@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "fairjoin",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-05",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "none",
+    "run_worker_first": [
+      "/health",
+      "/media/fairjoin-2min.mp4",
+      "/media/fairjoin-4min.mp4"
+    ]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

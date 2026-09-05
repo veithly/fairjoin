@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "title": "GPT Pro 20x 拼车 — controlled testnet evidence",
+  "chainId": 10143,
+  "groupId": "11",
+  "contract": "0xf6ac320e7c4e865a72c588c89be23ff12ca543c3",
+  "token": "0xa9df142d14218cc99f3068cbadc1d1965f7623b7",
+  "decimals": 6,
+  "symbol": "FJUSD",
+  "fixedBudgetRaw": "200000000",
+  "created": {
+    "hash": "0xd7f615919efb424289620933d9771b1e43a35bad73bf3da7142dc86e9491d9cc",
+    "blockNumber": "59841757"
+  },
+  "initialFunding": {
+    "members": 4,
+    "paidEachRaw": "50000000",
+    "verifiedAt": "2026-09-05T07:04:33.709Z",
+    "joinTransactions": [
+      "0x2ddac98c868096871c70861191b486fe286cddec682f43a5943cd45b4cde9234",
+      "0x18df947dc34ee2337b3bf4e5d413e1b05664488ae4e5fa4534142a702c00969d",
+      "0x5c0da09a50d39a81cc30c12f11dfa2a8cf94480f5bed86ec20bfa268f5c0b65b",
+      "0xf797155c654905a2936442155cc7fb672badd4fdc4f9a81884a73b0e2bd47834"
+    ]
+  },
+  "fifthJoin": {
+    "hash": "0x1be1efb349173d80e4c36ca387ff83e4c01b914bcd0095e38cebe7b583f387ef",
+    "blockNumber": "59843742",
+    "membersAfter": 5,
+    "paidRaw": "40000000",
+    "groupCumulativePaidRaw": "240000000"
+  },
+  "claim": {
+    "hash": "0x6feae5199f7f80fdcf21a95308689f49fe603be4d0a236e23f4c130aa3fc1925",
+    "originalPayer": "0x39fb9c5d645712Dde3Cd5601E2CCDfcd1089719A",
+    "amountRaw": "10000000",
+    "recordedWalletBalanceBeforeRaw": "690000000",
+    "recordedWalletBalanceAfterRaw": "700000000"
+  },
+  "verifiedAt": "2026-09-05T07:30:49.277Z",
+  "receiptUrl": "https://fairjoin.veithly.workers.dev/#/g/11/receipt/0x39fb9c5d645712Dde3Cd5601E2CCDfcd1089719A?chainId=10143&contract=0xf6ac320e7c4e865a72c588c89be23ff12ca543c3",
+  "disclosure": "Historical controlled testnet observations, not live balances, customer adoption, audited security or proof of service delivery. FJUSD has no monetary value. No membership or account access is provided. This file records a join and rebate claim, not organizer finalization.",
+  "sources": [
+    "https://fairjoin.veithly.workers.dev/proof/final-demo-seed.json",
+    "https://fairjoin.veithly.workers.dev/proof/final-demo.json"
+  ]
+}

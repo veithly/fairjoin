@@ -1,0 +1,80 @@
+
+/* UI simplification pass. Loaded last; only refines existing brand styles. */
+
+.home-hero h1 .hero-line {
+  display: block;
+}
+
+.test-notice {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: #6b6577;
+}
+
+.utility-tools,
+.activity-details,
+.footer-chain-details {
+  border: 1px solid rgba(124, 92, 166, 0.25);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  overflow-wrap: anywhere;
+}
+
+.utility-tools > summary,
+.activity-details > summary,
+.footer-chain-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #5b4b7a;
+}
+
+.utility-tools[open],
+.activity-details[open],
+.footer-chain-details[open] {
+  padding-bottom: 1rem;
+}
+
+.utility-tools .boundary-notice {
+  margin-top: 0.75rem;
+}
+
+.member-empty-summary {
+  font-size: 0.9rem;
+  color: #4f7a5a;
+  font-weight: 600;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.catalog-grid,
+.hero-grid,
+.members,
+.home-actions,
+.catalog-controls {
+  min-width: 0;
+}
+
+.catalog-card,
+.member,
+.payment-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .utility-tools,
+  .activity-details,
+  .footer-chain-details {
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero *,
+  .catalog-card *,
+  .payment-card * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

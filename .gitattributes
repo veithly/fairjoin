@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.md text
+*.json text
+*.ts text
+*.tsx text
+*.mjs text
+*.sol text
