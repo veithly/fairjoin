@@ -26,6 +26,7 @@ import {
 import "./styles.css";
 import './components/catalog.css';
 import "./polish.css";
+import "./components/discovery.css";
 import {isEnglish, languageHref} from './lib/i18n';
 import { i18nText } from "./lib/i18n";
 
@@ -59,18 +60,19 @@ function parseRoute(hash: string) {
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
   useEffect(() => {
-    document.title = i18nText("GPT Pro 20x 拼车 · FAIRJOIN");
     document.documentElement.lang = isEnglish() ? 'en' : 'zh-CN';
   }, []);
   const route = parseRoute(hash);
   const c = useAppController(route.id);
   const d = c.deployment;
-  // FAIRJOIN_MAIN_CASE_REDIRECT: the deployed GPT Pro case is the first screen.
+  // Home is discovery; shared group and receipt links remain direct routes.
   useEffect(() => {
-    if (d?.demoGroupId && (!hash || hash === "#/" || hash === "#")) {
-      window.location.hash = destination(`/g/${d.demoGroupId}`, d);
-    }
-  }, [d, hash]);
+    const title = route.page === 'home' ? i18nText('发现好活动 · FAIRJOIN')
+      : route.page === 'host' ? i18nText('主办方 · FAIRJOIN')
+      : c.snapshot?.group.id === route.id ? `${c.snapshot.group.metadata.title} · FAIRJOIN`
+      : i18nText('拼好团 · 一起分摊');
+    document.title = title;
+  }, [route.page, route.id, c.snapshot?.group.metadata.title]);
   useEffect(()=>{recordEvent('page_view',{chainId:d?.chainId,groupId:route.id?.toString()});},[hash,d?.chainId]);
   const [request, setRequest] = useState<DialogRequest | null>(null);
   const [toast, setToast] = useState("");
@@ -106,7 +108,6 @@ export default function App() {
           !same(route.params.get("contract") || "", d.contract))),
   );
   const selected = route.id ?? lastGroup;
-  const demoReady = /^\d+$/.test(d?.demoGroupId ?? "");
   const hostHref = destination("/host", d);
   function openAction(kind: ActionKind) {
     if (c.pending) {
@@ -218,10 +219,10 @@ export default function App() {
           </a>
           <nav aria-label={i18nText("产品页面")}>
             <a
-              href={d && demoReady ? destination(`/g/${d.demoGroupId}`, d) : destination('/', d)}
+              href={destination('/', d)}
               aria-current={route.page === "home" || route.page === "activity" ? "page" : undefined}
             >
-              {i18nText("活动")}
+              {i18nText("发现活动")}
             </a>
             <button
               onClick={myReceipt}
@@ -250,7 +251,7 @@ export default function App() {
       <main
         id="main"
         tabIndex={-1}
-        className={`container ${route.page === "activity" ? "with-mobile-action" : ""}`}
+        className={`container ${route.page === "activity" ? "with-mobile-action" : ""} ${route.page === 'home' || route.page === 'missing' ? 'discovery-container' : ''}`}
       >
         <PendingWarning controller={c}/>
         {c.pending && (
@@ -349,41 +350,17 @@ export default function App() {
             onShare={() => void share()}
           />
         ) : route.page === "home" || route.page === "missing" ? (
-          <section className="home-hero">
-            <h1>
-              {route.page === "missing" ? (
-                i18nText("这条路径没有对应的活动。")
-              ) : (
-                <>
-                  <span className="hero-line">{i18nText("GPT Pro 20x 拼车，")}</span>
-                  <span className="hero-line">{i18nText("先上车也不多付。")}</span>
-                </>
-              )}
-            </h1>
-            {route.page === "home" && (
-              <p className="lead">{i18nText("固定总价 200，四人各付 50；第五人付 40，先来的每人领回 10。")}</p>
-            )}
-            <p className="test-notice">
-              {i18nText("测试网演示 · 使用无价值 FJUSD 测试币 · 不售卖账号或会员使用权")}
-            </p>
-            <div className="home-actions">
-              {demoReady ? (
-                <a
-                  className="primary"
-                  href={destination(`/g/${d.demoGroupId}`, d)}
-                >
-                  {i18nText("打开 GPT Pro 20x 拼车 →")}
-                </a>
-              ) : (
-                <button className="primary" disabled>
-                  {i18nText("示例团尚未配置")}
-                </button>
-              )}
-              <a className="secondary" href={`${hostHref}&new=1`}>
-                {i18nText("我是主办方，创建新团")}
+          <section className="discovery-page">
+            <div className="discovery-intro">
+              <div>
+                <h1>{route.page === 'missing' ? i18nText('这条路径没有对应的活动。') : i18nText('好活动，一起上车。')}</h1>
+                <p>{i18nText('固定总价，多一个人，大家少付一点。')}</p>
+              </div>
+              <a className="secondary discovery-create" href={`${hostHref}&new=1`}>
+                <span aria-hidden="true">＋</span> {i18nText('发起一个团')}
               </a>
             </div>
-            <GroupCatalog deployment={d} />
+            <GroupCatalog key={`${d.chainId}:${d.contract}:${d.token}`} deployment={d} />
             <details className="utility-tools">
               <summary>{i18nText("实用工具")}</summary>
               <form className="open-group" onSubmit={openLink}>
