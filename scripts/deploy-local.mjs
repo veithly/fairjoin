@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { createPublicClient, createWalletClient, defineChain, http, isAddress, parseUnits } from 'viem';
+import { createPublicClient, defineChain, encodeDeployData, encodeFunctionData, http, isAddress, parseUnits, toHex } from 'viem';
 
 // Intentionally local-only. No RPC override, mnemonic, private key or testnet
 // branch: use the development node's unlocked throwaway accounts instead.
@@ -13,7 +13,19 @@ const client = createPublicClient({ chain, transport: http(rpcUrl, { timeout: 15
 assert.equal(await client.getChainId(), 31337, 'Refusing to deploy outside local chain 31337.');
 const addresses = await client.request({ method: 'eth_accounts' });
 assert(addresses.length >= 5 && addresses.every(address => isAddress(address)), 'Start npm run chain with unlocked local accounts.');
-const walletFor = account => createWalletClient({ account, chain, transport: http(rpcUrl, { retryCount: 0 }) });
+async function sendLocal(from, to, data) {
+  assert.equal(await client.getChainId(), 31337, 'Local chain identity changed.');
+  const destination = to ? { to } : {};
+  const gas = await client.estimateGas({ account: from, ...destination, data, value: 0n });
+  // Ganache's unlocked-account endpoint needs explicit gas. Never fall back to
+  // a wallet namespace or repeat an unknown broadcast under another method.
+  return client.request({ method: 'eth_sendTransaction', params: [{ from,
+    ...destination, data, value: '0x0', gas: toHex(gas + gas / 5n) }] }, { retryCount: 0 });
+}
+const walletFor = account => ({
+  deployContract: ({ abi, bytecode, args }) => sendLocal(account, undefined, encodeDeployData({ abi, bytecode, args })),
+  writeContract: ({ address, abi, functionName, args }) => sendLocal(account, address, encodeFunctionData({ abi, functionName, args })),
+});
 const host = walletFor(addresses[0]);
 const artifact = async name => JSON.parse(await readFile(`artifacts/contracts/${name}.json`, 'utf8'));
 const core = await artifact('Pinhaotuan'), tokenArtifact = await artifact('TestUSDC');
